@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80">
+  <defs>
+    <style>
+      .red{fill:#C4162A}
+      .gold{fill:#B8860B}
+      .navy{fill:#0A2A5E}
+      .ink{fill:#1B1F24}
+    </style>
+  </defs>
+  <!-- Elephant (left, looking left) -->
+  <g transform="translate(8,18)">
+    <circle class="navy" cx="16" cy="18" r="16"></circle>
+    <rect class="navy" x="28" y="18" width="14" height="10" rx="5"></rect>
+    <circle fill="#fff" cx="10" cy="18" r="3"></circle>
+  </g>
+  <!-- Rhino (right, looking right) -->
+  <g transform="translate(68,18)">
+    <circle class="red" cx="16" cy="18" r="16"></circle>
+    <polygon class="red" points="30,12 42,16 30,20"></polygon>
+    <circle fill="#fff" cx="22" cy="18" r="3"></circle>
+  </g>
+  <!-- Divider & Wordmark -->
+  <rect class="gold" x="122" y="16" width="2" height="48" rx="1"></rect>
+  <text x="134" y="40" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif" class="ink" font-size="22" font-weight="800">Elenack</text>
+  <text x="134" y="62" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif" class="ink" font-size="16" font-weight="600">Motorplex</text>
+</svg>
