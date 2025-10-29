@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Certified Pre-Owned | Phil Long Ford Motor City</title>
+<style>
+body,table,td,p,div{margin:0;padding:0;}
+img{border:0;display:block;line-height:100%;outline:none;text-decoration:none;}
+a{text-decoration:none;}
+.wrapper{width:100%;background:#0f1115;}
+.container{width:100%;max-width:600px;margin:0 auto;}
+.bg{background:#ffffff;}
+.text{color:#1b1f24;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;}
+.muted{color:#5b6570;}
+.h1{font-size:26px;line-height:1.25;font-weight:800;margin:0 0 8px;}
+.p{font-size:16px;line-height:1.5;margin:0;}
+.btn{background:#1f6feb;color:#fff;border-radius:8px;display:inline-block;padding:14px 22px;font-size:16px;}
+@media (max-width:600px){.pad{padding:18px!important;}}
+@media (prefers-color-scheme: dark){
+  .bg{background:#0f1115!important;}
+  .text{color:#e6edf3!important;}
+  .muted{color:#9aa7b2!important;}
+  .btn{background:#4493f8!important;color:#0f1115!important;}
+}
+.preheader{display:none!important;visibility:hidden;opacity:0;height:0;width:0;overflow:hidden;mso-hide:all;}
+</style>
+<!--[if mso]><style>.text{font-family:Arial,sans-serif!important;}</style><![endif]-->
+</head>
+<body class="text" style="background:#0f1115;">
+<div class="preheader">Low-mileage, inspected, and backed by warranty — explore Certified Pre-Owned Fords.</div>
+
+<table role="presentation" class="wrapper" width="100%" cellpadding="0" cellspacing="0">
+<tr><td align="center">
+<table role="presentation" class="container bg" width="100%">
+<tr><td class="pad" style="padding:20px 24px;">
+  <table role="presentation" width="100%">
+    <tr>
+      <td align="left"><a href="{{HOME_URL}}"><img src="{{LOGO_URL}}" alt="Phil Long Ford Motor City" width="160" style="height:auto;"></a></td>
+      <td align="right" class="muted" style="font-size:14px;"><a href="{{VIEW_ONLINE_URL}}" style="color:inherit;">View online</a></td>
+    </tr>
+  </table>
+</td></tr>
+
+<tr><td style="padding:0 24px;">
+  <a href="{{CPO_URL}}">
+    <img src="{{HERO_URL}}" width="552" alt="Certified Pre-Owned Ford lineup" style="width:100%;max-width:552px;height:auto;border-radius:12px;">
+  </a>
+</td></tr>
+
+<tr><td class="pad" style="padding:18px 24px 8px;">
+  <h1 class="h1">Certified. Protected. Ready.</h1>
+  <p class="p">Every Certified Pre-Owned Ford is backed by a 172-point inspection and a 7-year/100,000-mile powertrain warranty. Find yours today.</p>
+</td></tr>
+
+<tr><td class="pad" style="padding:10px 24px 22px;">
+  <!--[if mso]>
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="{{CPO_URL}}" style="height:44px;v-text-anchor:middle;width:260px;" arcsize="10%" fillcolor="#1f6feb" stroke="f">
+    <w:anchorlock/><center style="color:#fff;font-family:Arial,sans-serif;font-size:16px;">Shop Certified Inventory</center>
+  </v:roundrect>
+  <![endif]-->
+  <!--[if !mso]><!-- -->
+  <a class="btn" href="{{CPO_URL}}" target="_blank">Shop Certified Inventory</a>
+  <!--<![endif]-->
+  <div class="muted" style="font-size:14px;margin-top:10px;">or <a href="{{TRADE_URL}}" style="color:inherit;">Value Your Trade</a></div>
+</td></tr>
+
+<tr><td style="padding:0 24px 8px;">
+  <table role="presentation" width="100%" style="border:1px solid #e8ecf2;border-radius:10px;">
+    <tr><td class="p" style="padding:14px 16px;">
+      <strong>Why Certified?</strong> 24/7 Roadside Assistance • Comprehensive Limited Warranty • CARFAX® Vehicle History Report
+    </td></tr>
+  </table>
+</td></tr>
+
+<tr><td class="pad" style="padding:20px 24px 36px;">
+  <p class="muted" style="font-size:12px;line-height:1.5;margin:0;">
+    Phil Long Ford Motor City • {{ADDRESS}}<br>
+    <a href="{{PREFS_URL}}" style="color:inherit;">Manage preferences</a> • <a href="{{UNSUB_URL}}" style="color:inherit;">Unsubscribe</a>
+  </p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>
