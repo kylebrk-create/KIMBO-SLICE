@@ -3,39 +3,129 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>Phil Long Email Templates (Preview)</title>
+  <title>Phil Long Email Templates (Preview Gallery)</title>
   <style>
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;margin:40px;color:#1b1f24}
-    a{color:#1f6feb;text-decoration:none}
+    :root{
+      --bg:#0f1115; --paper:#ffffff; --ink:#1b1f24; --muted:#57606a; --line:#e6ebf1; --brand:#1f6feb;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0b0e12; --paper:#0f1115; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630; }
+    }
+    body{
+      margin:40px;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--ink);
+    }
     h1{font-weight:800;margin:0 0 8px}
-    p{margin:0 0 20px;color:#57606a}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-    .card{border:1px solid #e6ebf1;border-radius:12px;padding:14px}
-    .card a{display:block;font-weight:700;margin-bottom:6px}
-    .hint{font-size:12px;color:#6e7781}
+    p{margin:0 0 20px;color:var(--muted)}
+    a{color:var(--brand);text-decoration:none}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+      gap:18px;
+      align-items:start;
+    }
+    .card{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:var(--paper);
+      overflow:hidden;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.12); }
+    .meta{ padding:12px 14px 14px; }
+    .title{ font-weight:800; }
+    .hint{ font-size:12px; color:var(--muted); margin-top:4px; }
+
+    /* --- LIVE PREVIEW --- */
+    .preview-wrap{
+      position:relative;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      /* size of the thumbnail window */
+      width:100%; height:360px;
+      overflow:hidden;
+    }
+    /* The email templates are 600px wide. We’ll render them at 75% scale. */
+    .preview{
+      position:absolute; top:0; left:50%;
+      width:600px; height:1200px;          /* tall enough to show fold */
+      transform-origin:top center;
+      transform:translateX(-50%) scale(.75);
+      border:0; pointer-events:none;       /* not clickable inside the iframe */
+      background:#fff;
+    }
+    /* Make the entire card clickable via an overlay link */
+    .overlay-link{
+      position:absolute; inset:0;
+      z-index:3;
+    }
+
+    /* small screens */
+    @media (max-width:600px){
+      body{margin:22px}
+      .preview-wrap{height:300px}
+      .preview{transform:translateX(-50%) scale(.65)}
+    }
   </style>
 </head>
 <body>
   <h1>Phil Long Email Templates</h1>
-  <p>Click a template to preview. (Browser preview ≠ email client.)</p>
+  <p>Click any card to open the full-size demo. These previews are live renders of the actual HTML.</p>
 
   <div class="grid">
-    <div class="card">
-      <a href="./templates/accord-hybrid.html">Accord Hybrid — Offers</a>
-      <div class="hint">Hero + live copy + bulletproof CTA</div>
-    </div>
-    <div class="card">
-      <a href="./templates/service-and-tires.html">Service & Tires</a>
-      <div class="hint">Scheduler CTA + 3 quick links + hours</div>
-    </div>
-    <div class="card">
-      <a href="./templates/cpo.html">Certified Pre-Owned</a>
-      <div class="hint">Warranty, inspection, CARFAX®</div>
-    </div>
-    <div class="card">
-      <a href="./templates/new-vehicles.html">New Vehicles</a>
-      <div class="hint">Current models & offers</div>
-    </div>
+
+    <!-- Accord Hybrid -->
+    <article class="card">
+      <a class="overlay-link" href="./templates/accord-hybrid.html" aria-label="Open Accord Hybrid full demo"></a>
+      <div class="preview-wrap">
+        <iframe class="preview" src="./templates/accord-hybrid.html" title="Accord Hybrid preview" loading="lazy"></iframe>
+      </div>
+      <div class="meta">
+        <div class="title">Accord Hybrid — Offers</div>
+        <div class="hint">Hero + live copy + bulletproof CTA</div>
+      </div>
+    </article>
+
+    <!-- Service & Tires -->
+    <article class="card">
+      <a class="overlay-link" href="./templates/service-and-tires.html" aria-label="Open Service & Tires full demo"></a>
+      <div class="preview-wrap">
+        <iframe class="preview" src="./templates/service-and-tires.html" title="Service & Tires preview" loading="lazy"></iframe>
+      </div>
+      <div class="meta">
+        <div class="title">Service &amp; Tires</div>
+        <div class="hint">Scheduler CTA + 3 quick links + hours</div>
+      </div>
+    </article>
+
+    <!-- Certified Pre-Owned -->
+    <article class="card">
+      <a class="overlay-link" href="./templates/cpo.html" aria-label="Open Certified Pre-Owned full demo"></a>
+      <div class="preview-wrap">
+        <iframe class="preview" src="./templates/cpo.html" title="CPO preview" loading="lazy"></iframe>
+      </div>
+      <div class="meta">
+        <div class="title">Certified Pre-Owned</div>
+        <div class="hint">Inspection, warranty, CARFAX®</div>
+      </div>
+    </article>
+
+    <!-- New Vehicles -->
+    <article class="card">
+      <a class="overlay-link" href="./templates/new-vehicles.html" aria-label="Open New Vehicles full demo"></a>
+      <div class="preview-wrap">
+        <iframe class="preview" src="./templates/new-vehicles.html" title="New Vehicles preview" loading="lazy"></iframe>
+      </div>
+      <div class="meta">
+        <div class="title">New Vehicles</div>
+        <div class="hint">Current models & offers</div>
+      </div>
+    </article>
+
   </div>
+
 </body>
 </html>
