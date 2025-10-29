@@ -1,0 +1,10 @@
+# system junk
+.DS_Store
+Thumbs.db
+
+# build folders
+node_modules/
+dist/
+
+# archives and exports
+*.zip
