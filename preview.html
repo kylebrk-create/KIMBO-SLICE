@@ -29,32 +29,89 @@
   @media (max-width:980px){.wrap{grid-template-columns:1fr}.specs{border-left:none;border-top:1px solid var(--line)}}
 </style>
 <script>
+  // --- Robust parameter handling ---
   const qs = new URLSearchParams(location.search);
-  const tpl = qs.get('tpl');
-  const id  = qs.get('id');
+  const idParam = qs.get('id');
+  let tpl = qs.get('tpl') || qs.get('template') || "";
+
+  // Normalize path: no leading slash (breaks on GH Pages), ensure relative path
+  if (tpl.startsWith("/")) tpl = tpl.replace(/^\/+/, ""); // remove leading '/'
+  if (!tpl.startsWith("./") && !tpl.startsWith("../")) tpl = `./${tpl}`;
+
+  // --- Spec content (unchanged) ---
   const SECTIONS = {
-    accord: { title:"Accord Hybrid — Offers", imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG (80–85%)",note:"Use alt text. Avoid WebP for email."}],
-      notes:[["Preheader","Hidden snippet of ~85–130 chars; complements subject."],["Hero","600px wide; keep under 200 KB."],["Primary CTA","Bulletproof button (VML), 44px height."],["Copy","Short lines (40–70 chars)."],["Legal","Inline panel; link full T&Cs."]]},
-    service:{ title:"Service & Tires", imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 180 KB",type:"JPG (80%)",note:"Compress well; shop imagery."}],
-      notes:[["Scheduler CTA","Link to scheduler + phone fallback."],["Three Shortcuts","Oil, Brakes, Battery (deep-link)."],["Hours Panel","Keep hours in live text."]]},
-    cpo:{ title:"Certified Pre-Owned", imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Show lineup / detail shot."}],
-      notes:[["Trust Row","Warranty, inspection, history in live text."],["Secondary CTA","Trade-in valuation link."]]},
-    new:{ title:"New Vehicles", imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Minimal text in image; live text below."}],
-      notes:[["Models Row","List models in text, not baked into image."],["Test Drive CTA","Add separate test-drive link."]]}
+    accord: { title:"Accord Hybrid — Offers",
+      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG (80–85%)",note:"Use alt text. Avoid WebP for email."}],
+      notes:[["Preheader","Hidden snippet of ~85–130 chars; complements subject."],
+             ["Hero","600px wide; keep under 200 KB."],
+             ["Primary CTA","Bulletproof button (VML), 44px height."],
+             ["Copy","Short lines (40–70 chars)."],
+             ["Legal","Inline panel; link full T&Cs."]]
+    },
+    service:{ title:"Service & Tires",
+      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 180 KB",type:"JPG (80%)",note:"Compress well; shop imagery."}],
+      notes:[["Scheduler CTA","Link to scheduler + phone fallback."],
+             ["Three Shortcuts","Oil, Brakes, Battery (deep-link)."],
+             ["Hours Panel","Keep hours in live text."]]
+    },
+    cpo:{ title:"Certified Pre-Owned",
+      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Show lineup / detail shot."}],
+      notes:[["Trust Row","Warranty, inspection, history in live text."],
+             ["Secondary CTA","Trade-in valuation link."]]
+    },
+    new:{ title:"New Vehicles",
+      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Minimal text in image; live text below."}],
+      notes:[["Models Row","List models in text, not baked into image."],
+             ["Test Drive CTA","Add separate test-drive link."]]
+    }
   };
+
   function renderSpecs(){
-    const spec = SECTIONS[id] || {title:"Template Preview", imgSpec:[], notes:[]};
+    const spec = SECTIONS[idParam] || {title:"Template Preview", imgSpec:[], notes:[]};
     document.getElementById('title').textContent = spec.title;
     document.getElementById('img-list').innerHTML = spec.imgSpec.length
       ? spec.imgSpec.map(s=>`<li><strong>${s.part}:</strong> ${s.size} • <span class="pill">${s.maxKB}</span> • ${s.type} — <span class="mono">${s.note}</span></li>`).join('')
       : "<li>No specific image specs.</li>";
     document.getElementById('notes').innerHTML = spec.notes.length
-      ? spec.notes.map(([h,t])=>`<h3>${h}</h3><p>${t}</p>`).join('') : "<p>No additional notes.</p>";
-    const src = document.getElementById('open-src'); src.href = tpl || '#'; src.textContent = tpl || '—';
-    if(tpl){ document.getElementById('frame').src = tpl; }
+      ? spec.notes.map(([h,t])=>`<h3>${h}</h3><p>${t}</p>`).join('')
+      : "<p>No additional notes.</p>";
   }
-  document.addEventListener('DOMContentLoaded', renderSpecs);
+
+  function setIframe(){
+    const iframe = document.getElementById('frame');
+    const srcLink = document.getElementById('open-src');
+    const err = document.getElementById('err');
+
+    if (!tpl) {
+      err.hidden = false;
+      err.textContent = "No template specified. Did you link with ?tpl=templates/your-file.html ?";
+      return;
+    }
+
+    srcLink.href = tpl;
+    srcLink.textContent = tpl;
+
+    // Attempt to load; show an error if it fails (after a short timeout)
+    let loaded = false;
+    iframe.addEventListener('load', () => { loaded = true; });
+    setTimeout(() => {
+      if (!loaded) {
+        err.hidden = false;
+        err.innerHTML =
+          `Could not load <code class="mono">${tpl}</code>.<br>` +
+          `Check that the file exists and the link does not start with a leading slash.`;
+      }
+    }, 1200);
+
+    iframe.src = tpl;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderSpecs();
+    setIframe();
+  });
 </script>
+
 </head>
 <body>
   <div class="bar">
