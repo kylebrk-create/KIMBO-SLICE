@@ -1,155 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elenack Motorplex | Service Reminder</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #0A1A33;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: #f2f2f2;
-    }
-    table {
-      border-spacing: 0;
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #111A2A;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    img {
-      border: 0;
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .header {
-      background-color: #0A1A33;
-      text-align: center;
-      padding: 24px 0;
-    }
-    .header img {
-      width: 140px;
-    }
-    .hero {
-      position: relative;
-    }
-    .hero img {
-      filter: brightness(0.85);
-    }
-    .hero-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      text-align: center;
-    }
-    .hero-text h1 {
-      font-size: 28px;
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .hero-text p {
-      font-size: 16px;
-      margin: 10px 0 0;
-    }
-    .content {
-      padding: 28px 24px;
-      text-align: left;
-      background-color: #141F33;
-    }
-    .content h2 {
-      font-size: 20px;
-      color: #D6B04C;
-      margin-bottom: 8px;
-    }
-    .content p {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #DCE3F2;
-    }
-    .cta {
-      background-color: #C62828;
-      text-align: center;
-      padding: 16px;
-      border-radius: 6px;
-      margin-top: 24px;
-    }
-    .cta a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      font-size: 16px;
-    }
-    .cta:hover {
-      background-color: #a51f1f;
-    }
-    .footer {
-      background-color: #0A1A33;
-      text-align: center;
-      padding: 18px;
-      font-size: 12px;
-      color: #b0b0b0;
-    }
-    @media (max-width: 600px) {
-      .hero-text h1 { font-size: 22px; }
-      .content { padding: 18px; }
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Service Reminder | Elenack Motorplex</title>
+<style>
+body,table,td,p,div{margin:0;padding:0}img{border:0;display:block;line-height:100%;outline:0;text-decoration:none}a{text-decoration:none}
+.wrapper{width:100%;background:#0f1115}.container{width:100%;max-width:600px;margin:0 auto}.bg{background:#ffffff}
+.text{color:#1B1F24;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.muted{color:#5b6570}
+.h1{font-size:26px;line-height:1.25;font-weight:800;margin:0 0 8px}.p{font-size:16px;line-height:1.5;margin:0}.legal{font-size:12px;line-height:1.5;color:#6b7280}
+.btn{background:#C4162A;color:#ffffff;border-radius:8px;display:inline-block;padding:14px 22px;font-size:16px}
+@media (max-width:600px){.pad{padding:18px!important}} .preheader{display:none!important;visibility:hidden;opacity:0;height:0;width:0;overflow:hidden;mso-hide:all}
+</style>
+<!--[if mso]><style>.text{font-family:Arial,sans-serif!important;}</style><![endif]-->
 </head>
-<body>
-  <table role="presentation">
-    <!-- Header / Logo -->
-    <tr>
-      <td class="header">
-        <img src="https://raw.githubusercontent.com/kylebrk-create/KIMBO-SLICE/main/assets/elenack-logo-light.svg" alt="Elenack Motorplex Logo">
-      </td>
-    </tr>
+<body class="text" style="background:#0f1115">
+<div class="preheader">Service due? Book a time that works for you at Elenack Motorplex.</div>
+<table role="presentation" class="wrapper" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+  <table role="presentation" class="container bg" width="100%" cellpadding="0" cellspacing="0">
+    <tr><td class="pad" style="padding:20px 24px">
+      <table role="presentation" width="100%"><tr>
+        <td align="left"><img src="../assets/elenack-logo-dark.svg" alt="Elenack Motorplex" width="160" style="height:auto;max-width:160px"></td>
+        <td align="right" class="muted" style="font-size:14px"><a href="https://example.com/view-online" style="color:inherit">View online</a></td>
+      </tr></table>
+    </td></tr>
 
-    <!-- Hero Image -->
-    <tr>
-      <td class="hero">
-        <img src="https://raw.githubusercontent.com/kylebrk-create/KIMBO-SLICE/main/assets/elenack-service-hero.png" alt="Elenack Service Bay">
-        <div class="hero-text">
-          <h1>Your Service Is Due</h1>
-          <p>Keep your vehicle running like family.</p>
-        </div>
-      </td>
-    </tr>
+    <tr><td style="padding:0 24px">
+      <a href="https://example.com/service?utm_source=email&utm_medium=blast&utm_campaign=elenack-q4">
+        <img src="../assets/elenack-service-hero.jpg" width="552" alt="Starship Service Bay — Elenack Motorplex" style="width:100%;max-width:552px;height:auto;border-radius:12px">
+      </a>
+    </td></tr>
 
-    <!-- Body Content -->
-    <tr>
-      <td class="content">
-        <h2>Hi {{FirstName}},</h2>
-        <p>It’s time for your vehicle’s regular maintenance at <strong>Elenack Motorplex</strong>.  
-        Schedule your appointment today to ensure your ride stays smooth and safe for the road ahead.</p>
+    <tr><td class="pad" style="padding:18px 24px 8px">
+      <h1 class="h1">Service That Keeps You Flying</h1>
+      <p class="p">Oil, brakes, batteries and more — schedule in minutes and get back on the road.</p>
+    </td></tr>
 
-        <ul style="padding-left: 20px; color:#DCE3F2;">
-          <li>Oil & Filter Change</li>
-          <li>Multi-Point Inspection</li>
-          <li>Complimentary Tire Rotation</li>
-        </ul>
+    <tr><td class="pad" style="padding:10px 24px 22px">
+      <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://example.com/service?utm_source=email&utm_medium=blast&utm_campaign=elenack-q4" style="height:44px;v-text-anchor:middle;width:220px" arcsize="10%" fillcolor="#C4162A" stroke="f"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:16px">Schedule Service</center></v:roundrect><![endif]--><!--[if !mso]><!-- -->
+      <a class="btn" href="https://example.com/service?utm_source=email&utm_medium=blast&utm_campaign=elenack-q4" target="_blank">Schedule Service</a><!--<![endif]-->
+      <div class="muted" style="font-size:14px;margin-top:10px">or <a href="https://example.com/tires?utm_source=email&utm_medium=blast&utm_campaign=elenack-q4" style="color:inherit">View Tire Specials</a></div>
+    </td></tr>
 
-        <div class="cta">
-          <a href="#">Schedule Service</a>
-        </div>
-      </td>
-    </tr>
-
-    <!-- Footer -->
-    <tr>
-      <td class="footer">
-        © 2025 Elenack Motorplex · 1234 Main Street · Colorado Springs, CO<br>
-        <a href="#" style="color:#D6B04C;">Unsubscribe</a>
-      </td>
-    </tr>
+    <tr><td class="pad" style="padding:20px 24px 36px">
+      <p class="muted" style="font-size:12px;line-height:1.5;margin:0">Elenack Motorplex • 1234 W Sample Rd, Yourtown, ST 00000<br><a href="https://example.com/prefs" style="color:inherit">Manage preferences</a> • <a href="https://example.com/unsub" style="color:inherit">Unsubscribe</a></p>
+    </td></tr>
   </table>
-</body>
-</html>
+</td></tr></table>
+</body></html>
