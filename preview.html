@@ -11,23 +11,58 @@
     --brand:#C4162A; --accent:#9bb5ff;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  html,body{height:100%;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
   a{color:#8ab4ff;text-decoration:none}
   .bar{position:sticky;top:0;z-index:10;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(15,17,21,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
-  .wrap{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 52px)}
-  .stage{padding:20px;overflow:auto;background:var(--bg)}
-  .frame{width:100%;max-width:820px;min-height:calc(100vh - 140px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
-  .frame iframe{display:block;width:100%;height:100%;border:0}
-  .err{margin:0 0 16px;padding:12px;border:1px solid #3b4352;background:#1a2332;color:#e6edf3;border-radius:8px}
-  .specs{border-left:1px solid var(--line);background:var(--panel);color:#c7d1ff;padding:20px 18px;overflow:auto}
+  .wrap{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    height:calc(100vh - 52px);   /* fills the remaining viewport height */
+  }
+  .stage{
+    background:var(--bg);
+    overflow:auto;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:24px;
+  }
+  .frame{
+    width:100%;
+    max-width:820px;
+    height:calc(100vh - 100px);  /* taller preview */
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+  }
+  .frame iframe{
+    display:block;
+    width:100%;
+    height:100%;
+    border:0;
+    overflow:auto;
+    scroll-behavior:smooth;
+  }
+  .err{margin:0 0 16px;padding:12px;border:1px solid #3b4352;background:#1a2332;color:#e6edf3;border-radius:8px;max-width:820px}
+  .specs{
+    border-left:1px solid var(--line);
+    background:var(--panel);
+    color:#c7d1ff;
+    padding:24px 20px;
+    overflow:auto;
+  }
   .specs h2{margin:0 0 12px;font-size:18px;color:#fff}
   .specs h3{margin:18px 0 6px;font-size:14px;color:var(--accent)}
   .specs p,.specs li{font-size:14px;line-height:1.55;color:#a8b3c2}
   .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1f2630;font-size:12px;color:#c7d1ff}
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .ok{color:#22c55e}
-  @media (max-width:1024px){.wrap{grid-template-columns:1fr}.specs{border-left:none;border-top:1px solid var(--line)}}
+  @media (max-width:1024px){
+    .wrap{grid-template-columns:1fr}
+    .specs{border-left:none;border-top:1px solid var(--line);height:auto;max-height:40vh}
+  }
 </style>
 </head>
 <body>
@@ -49,7 +84,7 @@
       <p>File: <a id="open-src" href="#" target="_blank" rel="noopener" class="mono">—</a></p>
       <p>Status: <span id="status" class="pill">checking…</span></p>
 
-      <h3>Image Specs (quick)</h3>
+      <h3>Image Specs</h3>
       <ul id="img-list">
         <li><strong>Hero:</strong> 600×(auto) px • <span class="pill">&lt; 200 KB</span> • JPG 80–85%</li>
       </ul>
@@ -74,12 +109,10 @@
 
 <script>
 (async function(){
-  // --- Read & normalize parameters ---
   const qs = new URLSearchParams(location.search);
   let tpl = qs.get('tpl') || qs.get('template') || '';
   const id  = qs.get('id') || '';
 
-  // Normalize for GitHub Pages (no leading slash; make relative)
   if (tpl.startsWith('/')) tpl = tpl.replace(/^\/+/, '');
   if (!tpl.startsWith('./') && !tpl.startsWith('../')) tpl = './' + tpl;
 
@@ -90,7 +123,6 @@
   const titleEl  = document.getElementById('title');
   const setError = (html) => { errBox.hidden = false; errBox.innerHTML = html; };
 
-  // Optional: human title by id
   const TITLES = {
     accord: "Accord Hybrid — Offers",
     service: "Service & Tires",
@@ -99,7 +131,6 @@
   };
   titleEl.textContent = TITLES[id] || "Template Preview";
 
-  // Show resolved link
   if (tpl) { openSrc.href = tpl; openSrc.textContent = tpl; }
   else {
     statusEl.textContent = 'no file';
@@ -108,26 +139,20 @@
   }
 
   try {
-    // Some hosts block HEAD; use GET but ignore body until needed
     const resp = await fetch(tpl, { cache: 'no-store' });
     statusEl.textContent = 'HTTP ' + resp.status;
 
     if (!resp.ok) {
       setError(`Could not load <code class="mono">${tpl}</code> (HTTP ${resp.status}).<br>
-        Check spelling/case in <code class="mono">/templates</code> and avoid leading slashes.`);
+        Check file name and avoid leading slashes.`);
       return;
     }
 
     const html = await resp.text();
-
-    // Compute base href (directory of the template) so relative paths work
     const absFile  = new URL(tpl, location.href);
-    const baseHref = new URL('.', absFile).href; // dir of tpl
-
-    // Inject via srcdoc with a <base> so ../assets/... resolve correctly
+    const baseHref = new URL('.', absFile).href;
     const doc = `<!doctype html><html><head><base href="${baseHref}"></head><body>${html}</body></html>`;
     iframe.srcdoc = doc;
-
   } catch (e) {
     statusEl.textContent = 'network error';
     setError('Network error loading <code class="mono">' + tpl + '</code><br>' + String(e));
