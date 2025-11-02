@@ -29,88 +29,49 @@
   @media (max-width:980px){.wrap{grid-template-columns:1fr}.specs{border-left:none;border-top:1px solid var(--line)}}
 </style>
 <script>
-  // --- Robust parameter handling ---
   const qs = new URLSearchParams(location.search);
-  const idParam = qs.get('id');
-  let tpl = qs.get('tpl') || qs.get('template') || "";
+  let tpl = qs.get('tpl') || qs.get('template') || '';
+  const id = qs.get('id') || '';
 
-  // Normalize path: no leading slash (breaks on GH Pages), ensure relative path
-  if (tpl.startsWith("/")) tpl = tpl.replace(/^\/+/, ""); // remove leading '/'
-  if (!tpl.startsWith("./") && !tpl.startsWith("../")) tpl = `./${tpl}`;
+  // Normalize for GitHub Pages: remove leading / and ensure relative path
+  if (tpl.startsWith('/')) tpl = tpl.replace(/^\/+/, '');
+  if (!tpl.startsWith('./') && !tpl.startsWith('../')) tpl = './' + tpl;
 
-  // --- Spec content (unchanged) ---
-  const SECTIONS = {
-    accord: { title:"Accord Hybrid — Offers",
-      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG (80–85%)",note:"Use alt text. Avoid WebP for email."}],
-      notes:[["Preheader","Hidden snippet of ~85–130 chars; complements subject."],
-             ["Hero","600px wide; keep under 200 KB."],
-             ["Primary CTA","Bulletproof button (VML), 44px height."],
-             ["Copy","Short lines (40–70 chars)."],
-             ["Legal","Inline panel; link full T&Cs."]]
-    },
-    service:{ title:"Service & Tires",
-      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 180 KB",type:"JPG (80%)",note:"Compress well; shop imagery."}],
-      notes:[["Scheduler CTA","Link to scheduler + phone fallback."],
-             ["Three Shortcuts","Oil, Brakes, Battery (deep-link)."],
-             ["Hours Panel","Keep hours in live text."]]
-    },
-    cpo:{ title:"Certified Pre-Owned",
-      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Show lineup / detail shot."}],
-      notes:[["Trust Row","Warranty, inspection, history in live text."],
-             ["Secondary CTA","Trade-in valuation link."]]
-    },
-    new:{ title:"New Vehicles",
-      imgSpec:[{part:"Hero",size:"600×(auto) px",maxKB:"< 200 KB",type:"JPG",note:"Minimal text in image; live text below."}],
-      notes:[["Models Row","List models in text, not baked into image."],
-             ["Test Drive CTA","Add separate test-drive link."]]
-    }
-  };
+  const iframe = document.getElementById('frame');
+  const srcLink = document.getElementById('open-src');
+  const err = document.getElementById('err') || (function(){
+    const d=document.createElement('div');
+    d.id='err';
+    d.style.cssText='margin:12px 16px;padding:12px;border:1px solid #3b4352;background:#1a2332;color:#e6edf3;border-radius:8px;';
+    d.hidden=true;
+    document.querySelector('.stage')?.prepend(d);
+    return d;
+  })();
 
-  function renderSpecs(){
-    const spec = SECTIONS[idParam] || {title:"Template Preview", imgSpec:[], notes:[]};
-    document.getElementById('title').textContent = spec.title;
-    document.getElementById('img-list').innerHTML = spec.imgSpec.length
-      ? spec.imgSpec.map(s=>`<li><strong>${s.part}:</strong> ${s.size} • <span class="pill">${s.maxKB}</span> • ${s.type} — <span class="mono">${s.note}</span></li>`).join('')
-      : "<li>No specific image specs.</li>";
-    document.getElementById('notes').innerHTML = spec.notes.length
-      ? spec.notes.map(([h,t])=>`<h3>${h}</h3><p>${t}</p>`).join('')
-      : "<p>No additional notes.</p>";
-  }
-
-  function setIframe(){
-    const iframe = document.getElementById('frame');
-    const srcLink = document.getElementById('open-src');
-    const err = document.getElementById('err');
-
-    if (!tpl) {
-      err.hidden = false;
-      err.textContent = "No template specified. Did you link with ?tpl=templates/your-file.html ?";
+  async function loadTpl(){
+    if(!tpl){
+      err.hidden=false;
+      err.innerHTML='No template specified. Use <code>?tpl=templates/your-file.html</code>.';
       return;
     }
+    srcLink && (srcLink.href = tpl, srcLink.textContent = tpl);
 
-    srcLink.href = tpl;
-    srcLink.textContent = tpl;
-
-    // Attempt to load; show an error if it fails (after a short timeout)
-    let loaded = false;
-    iframe.addEventListener('load', () => { loaded = true; });
-    setTimeout(() => {
-      if (!loaded) {
-        err.hidden = false;
-        err.innerHTML =
-          `Could not load <code class="mono">${tpl}</code>.<br>` +
-          `Check that the file exists and the link does not start with a leading slash.`;
+    try{
+      const r = await fetch(tpl, {cache:'no-store'});
+      if(!r.ok){
+        err.hidden=false;
+        err.innerHTML=`Could not load <code>${tpl}</code> (HTTP ${r.status}). Check filename/case in <code>/templates</code>.`;
+        return;
       }
-    }, 1200);
-
-    iframe.src = tpl;
+      iframe.src = tpl;
+    }catch(e){
+      err.hidden=false;
+      err.textContent = `Network error loading ${tpl}: ` + e;
+    }
   }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    renderSpecs();
-    setIframe();
-  });
+  document.addEventListener('DOMContentLoaded', loadTpl);
 </script>
+
 
 </head>
 <body>
