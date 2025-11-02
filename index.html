@@ -4,104 +4,165 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>Elenack Motorplex — Email Gallery</title>
+  <meta name="color-scheme" content="dark">
   <style>
     :root{
       --bg:#0f1115; --paper:#12161d; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630;
-      --brand:#C4162A; --navy:#9bb5ff; --gold:#B8860B;
+      --brand:#C4162A; --gold:#B8860B;
       --header-bg:rgba(15,17,21,.9); --header-stroke:#1f2630;
     }
+    *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;padding:96px 24px 32px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    a{color:#8ab4ff;text-decoration:none}
+    body{
+      margin:0; padding:96px 24px 40px;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--ink);
+    }
+    a{color:#8ab4ff; text-decoration:none}
     h1{font-weight:800;margin:0 0 8px}
     p{margin:0 0 20px;color:var(--muted)}
-    .site-header{position:fixed;top:0;left:0;right:0;z-index:10;backdrop-filter:blur(8px);background:var(--header-bg);border-bottom:1px solid var(--header-stroke)}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:14px 24px}
-    .brand{display:flex;align-items:center;gap:12px;color:inherit}
-    .brand img{height:36px}
-    .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
-    .card{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden;transition:transform .12s, box-shadow .12s}
-    .card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+    /* Header */
+    .site-header{
+      position:fixed; top:0; left:0; right:0; z-index:10;
+      backdrop-filter:blur(8px);
+      background:var(--header-bg);
+      border-bottom:1px solid var(--header-stroke);
+    }
+    .header-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:1200px; margin:0 auto; padding:14px 24px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; color:inherit}
+    .brand img{height:36px; width:auto}
+    /* Grid */
+    .grid{
+      max-width:1200px; margin:0 auto;
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+      gap:18px;
+    }
+    .card{
+      position:relative; border:1px solid var(--line); border-radius:14px;
+      background:var(--paper); overflow:hidden;
+      transition:transform .12s, box-shadow .12s, border-color .12s;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.4); border-color:#2a3240}
+    .overlay{position:absolute; inset:0; z-index:3}
+    .preview-wrap{
+      position:relative; background:#0b0f14;
+      border-bottom:1px solid var(--line);
+      width:100%; height:360px; overflow:hidden;
+    }
+    .preview{
+      position:absolute; top:0; left:50%;
+      width:600px; height:1200px;
+      transform-origin:top center; transform:translateX(-50%) scale(.75);
+      border:0; pointer-events:none; background:#fff;
+      box-shadow:0 0 0 1px #111 inset;
+    }
     .meta{padding:12px 14px 14px}
     .title{font-weight:800}
-    .hint{font-size:12px;color:var(--muted);margin-top:4px}
-    .preview-wrap{position:relative;background:#0b0f14;border-bottom:1px solid var(--line);width:100%;height:360px;overflow:hidden}
-    .preview{position:absolute;top:0;left:50%;width:600px;height:1200px;transform-origin:top center;transform:translateX(-50%) scale(.75);border:0;pointer-events:none;background:#fff;box-shadow:0 0 0 1px #111 inset}
-    .overlay{position:absolute;inset:0;z-index:3}
-    @media (max-width:600px){body{padding:88px 16px 24px}.header-inner{padding:12px 16px}.preview-wrap{height:300px}.preview{transform:translateX(-50%) scale(.65)}}
+    .hint{font-size:12px; color:var(--muted); margin-top:4px}
+    @media (max-width:600px){
+      body{padding:88px 16px 28px}
+      .header-inner{padding:12px 16px}
+      .preview-wrap{height:300px}
+      .preview{transform:translateX(-50%) scale(.65)}
+    }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="./">
+        <!-- If you don't have this asset yet, swap to elenack-logo.png or remove the <img>. -->
         <img src="./assets/elenack-logo-light.svg" alt="Elenack Motorplex">
         <strong>Email Gallery</strong>
       </a>
+      <div style="opacity:.8;font-size:13px">Dark mode • Live previews • Click a card for details</div>
     </div>
   </header>
 
-  <main style="max-width:1200px;margin:0 auto">
+  <!-- Main -->
+  <main style="max-width:1200px; margin:0 auto">
     <h1>Preview Gallery</h1>
-    <p>Click any card for a full preview with guidance.</p>
+    <p>Click any card to open the full preview with image specs and best-practice notes.</p>
 
     <div class="grid">
-   
+
+      <!-- Accord Hybrid -->
       <article class="card">
-        <div class="card">
-  <img src="./assets/service-tractor-hero.jpg" alt="Tractor Hero Preview">
-  <h3>Service Center Hero</h3>
-  <p>Muddy Tractor | Elenack Motorplex Service Center</p>
-  <a class="overlay" href="./preview.html?tpl=templates/service-center-hero.html&id=service"></a>
-</div>
-
-<a class="overlay" href="./preview.html?tpl=templates/accord-hybrid.html&id=accord"></a>
-
-
-
-        <div class="preview-wrap"><iframe class="preview" src="./templates/accord-hybrid.html" loading="lazy" title="Accord Hybrid"></iframe></div>
-        <div class="meta"><div class="title">Accord Hybrid — Offers</div><div class="hint">Hero + copy + bulletproof CTA</div></div>
+        <a class="overlay" href="./preview.html?tpl=templates/accord-hybrid.html&id=accord"></a>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/accord-hybrid.html" loading="lazy" title="Accord Hybrid — Offers"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">Accord Hybrid — Offers</div>
+          <div class="hint">Hero + copy + bulletproof CTA</div>
+        </div>
       </article>
 
       <!-- Service & Tires -->
       <article class="card">
-      
-<a class="overlay" href="./preview.html?tpl=templates/service-and-tires.html&id=service"></a>
-
-
-        <div class="preview-wrap"><iframe class="preview" src="./templates/service-and-tires.html" loading="lazy" title="Service & Tires"></iframe></div>
-        <div class="meta"><div class="title">Service &amp; Tires</div><div class="hint">Scheduler CTA + 3 shortcuts</div></div>
+        <a class="overlay" href="./preview.html?tpl=templates/service-and-tires.html&id=service"></a>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/service-and-tires.html" loading="lazy" title="Service & Tires"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">Service &amp; Tires</div>
+          <div class="hint">Scheduler CTA • 3 shortcuts</div>
+        </div>
       </article>
 
-      <!-- CPO -->
+      <!-- Certified Pre-Owned (C-10 hero) -->
       <article class="card">
-       <!-- CPO -->
-<a class="overlay" href="./preview.html?tpl=templates/cpo.html&id=cpo"></a>
-
-<a class="overlay" href="./preview.html?tpl=templates/service-elenack.html&id=service"></a>
-        <div class="preview-wrap"><iframe class="preview" src="./templates/cpo.html" loading="lazy" title="CPO"></iframe></div>
-        <div class="meta"><div class="title">Certified Pre-Owned</div><div class="hint">Warranty & inspection (C-10 hero)</div></div>
+        <a class="overlay" href="./preview.html?tpl=templates/cpo.html&id=cpo"></a>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/cpo.html" loading="lazy" title="Certified Pre-Owned"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">Certified Pre-Owned</div>
+          <div class="hint">Warranty & inspection • Trade-in link</div>
+        </div>
       </article>
 
-      <!-- New Vehicles -->
+      <!-- New Vehicles (aerial lot hero) -->
       <article class="card">
-        
-<!-- New Vehicles -->
-<a class="overlay" href="./preview.html?tpl=templates/new-vehicles.html&id=new"></a>
-
-<!-- Elenack Service (Spaceship) -->
-        <div class="preview-wrap"><iframe class="preview" src="./templates/new-vehicles.html" loading="lazy" title="New Vehicles"></iframe></div>
-        <div class="meta"><div class="title">New Vehicles</div><div class="hint">Aerial lot hero</div></div>
+        <a class="overlay" href="./preview.html?tpl=templates/new-vehicles.html&id=new"></a>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/new-vehicles.html" loading="lazy" title="New Vehicles"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">New Vehicles</div>
+          <div class="hint">Aerial lot hero • Test-drive CTA</div>
+        </div>
       </article>
 
-      <!-- Elenack Service (Spaceship bay) -->
+      <!-- Elenack Service — Spaceship Bay -->
       <article class="card">
         <a class="overlay" href="./preview.html?tpl=templates/service-elenack.html&id=service"></a>
-        <div class="preview-wrap"><iframe class="preview" src="./templates/service-elenack.html" loading="lazy" title="Service Reminder (Spaceship)"></iframe></div>
-        <div class="meta"><div class="title">Service Reminder — Spaceship Bay</div><div class="hint">Fun educational sample</div></div>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/service-elenack.html" loading="lazy" title="Service Reminder — Spaceship Bay"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">Service Reminder — Spaceship Bay</div>
+          <div class="hint">Fun educational sample • Dark UI</div>
+        </div>
       </article>
 
-    
+      <!-- Service Center Hero — Muddy Tractor (include only if file exists) -->
+      <!-- If you've added /templates/service-center-hero.html, keep this card. Otherwise, delete or comment it out. -->
+      <article class="card">
+        <a class="overlay" href="./preview.html?tpl=templates/service-center-hero.html&id=service"></a>
+        <div class="preview-wrap">
+          <iframe class="preview" src="./templates/service-center-hero.html" loading="lazy" title="Service Center Hero — Tractor"></iframe>
+        </div>
+        <div class="meta">
+          <div class="title">Service Center — Muddy Tractor</div>
+          <div class="hint">Hyper-real hero • Simple CTA</div>
+        </div>
+      </article>
+
     </div>
   </main>
 </body>
