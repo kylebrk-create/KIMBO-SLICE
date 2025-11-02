@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>Elenack Motorplex — Email Gallery</title>
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="light">
   <style>
     :root{
-      --bg:#0f1115; --paper:#12161d; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630;
-      --brand:#C4162A; --gold:#B8860B; --header-bg:rgba(15,17,21,.9); --header-stroke:#1f2630;
+      --bg:#f6f8fb; --paper:#ffffff; --ink:#0f1720; --muted:#566073; --line:#e3e8ef;
+      --brand:#C4162A; --gold:#B8860B; --header-bg:rgba(255,255,255,.9); --header-stroke:#e7eaf0;
 
       /* preview math */
-      --preview-width: 600px;    /* size of the email inside the iframe */
+      --preview-width: 600px;
       --preview-height: 1200px;
-      --card-preview-h: 340px;   /* uniform window height for all cards */
+      --card-preview-h: 340px;
       --radius: 14px;
     }
 
@@ -23,8 +23,9 @@
       margin:0; padding:96px 24px 40px;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       background:var(--bg); color:var(--ink);
+      -webkit-font-smoothing:antialiased;
     }
-    a{color:#8ab4ff; text-decoration:none}
+    a{color:#1a66ff; text-decoration:none}
     h1{font-weight:800;margin:0 0 8px}
     p{margin:0 0 20px;color:var(--muted)}
 
@@ -57,27 +58,26 @@
       background:var(--paper);
       overflow:hidden;
       transition:transform .12s, box-shadow .12s, border-color .12s;
-      contain: content; /* isolates layout (prevents weird stacking) */
+      contain: content;
+      box-shadow:0 1px 0 rgba(16,24,40,.02);
     }
-    .card:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.4); border-color:#2a3240}
+    .card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(16,24,40,.08); border-color:#dfe4ec}
     .overlay{position:absolute; inset:0; z-index:3}
 
     .preview-wrap{
       position:relative;
-      background:#0b0f14;
+      background:#f1f4f9;
       border-bottom:1px solid var(--line);
       width:100%;
-      height:var(--card-preview-h);   /* UNIFORM height */
+      height:var(--card-preview-h);
       overflow:hidden;
     }
-    /* The email is rendered inside a 600x1200px iframe and scaled to fit */
     .preview{
       position:absolute; top:0; left:50%;
       width:var(--preview-width); height:var(--preview-height);
       transform-origin:top center;
-      /* transform set by JS: translateX(-50%) scale(S) */
       border:0; pointer-events:none; background:#fff;
-      box-shadow:0 0 0 1px #111 inset;
+      box-shadow:0 0 0 1px #e9edf3 inset;
     }
 
     .meta{padding:12px 14px 14px}
@@ -87,7 +87,7 @@
     @media (max-width:600px){
       body{padding:88px 16px 28px}
       .header-inner{padding:12px 16px}
-      :root{ --card-preview-h: 300px; } /* slightly shorter on mobile */
+      :root{ --card-preview-h: 300px; }
     }
   </style>
 </head>
@@ -96,11 +96,11 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="./">
-        <!-- swap the logo src if needed -->
-        <img src="./assets/elenack-logo-light.svg" alt="Elenack Motorplex">
+        <!-- Use a dark-on-light logo (swap asset name if needed) -->
+        <img src="./assets/elenack-logo-dark.svg" alt="Elenack Motorplex">
         <strong>Email Gallery</strong>
       </a>
-      <div style="opacity:.8;font-size:13px">Dark mode • Live previews • Click a card</div>
+      <div style="opacity:.75;font-size:13px">Light UI • Live previews • Click a card</div>
     </div>
   </header>
 
@@ -135,7 +135,7 @@
         </div>
       </article>
 
-      <!-- Certified Pre-Owned (C-10 hero) -->
+      <!-- Certified Pre-Owned -->
       <article class="card">
         <a class="overlay" href="./preview.html?tpl=templates/cpo.html&id=cpo"></a>
         <div class="preview-wrap">
@@ -147,7 +147,7 @@
         </div>
       </article>
 
-      <!-- New Vehicles (aerial lot hero) -->
+      <!-- New Vehicles -->
       <article class="card">
         <a class="overlay" href="./preview.html?tpl=templates/new-vehicles.html&id=new"></a>
         <div class="preview-wrap">
@@ -167,11 +167,11 @@
         </div>
         <div class="meta">
           <div class="title">Service Reminder — Spaceship Bay</div>
-          <div class="hint">Fun educational sample • Dark UI</div>
+          <div class="hint">Fun educational sample • Light UI</div>
         </div>
       </article>
 
-      <!-- Service Center Hero — Muddy Tractor (include only if this file exists) -->
+      <!-- Service Center Hero — Muddy Tractor (keep only if file exists) -->
       <article class="card">
         <a class="overlay" href="./preview.html?tpl=templates/service-center-hero.html&id=service"></a>
         <div class="preview-wrap">
@@ -194,16 +194,15 @@
         const iframe = wrap.querySelector('.preview');
         if(!iframe) return;
         const wrapW = wrap.clientWidth;
-        const targetW = 600;      // must match --preview-width
-        const targetH = 1200;     // must match --preview-height
-        const maxH = wrap.clientHeight; // uniform window height
+        const targetW = 600;
+        const targetH = 1200;
+        const maxH = wrap.clientHeight;
 
-        let scale = wrapW / targetW;   // fit width by default
+        let scale = wrapW / targetW;   // fit width
         const scaledH = targetH * scale;
 
-        // If fitting width makes it too tall for the window, cap by height
         if (scaledH > maxH) {
-          scale = maxH / targetH;
+          scale = maxH / targetH;     // cap by height
         }
         iframe.style.transform = `translateX(-50%) scale(${scale})`;
       });
