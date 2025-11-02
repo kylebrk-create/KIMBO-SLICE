@@ -4,107 +4,135 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
 <title>Elenack Motorplex — Template Preview</title>
+<meta name="color-scheme" content="dark">
 <style>
   :root{
-    --bg:#0f1115; --paper:#12161d; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630;
-    --brand:#C4162A; --navy:#9bb5ff; --gold:#B8860B;
+    --bg:#0f1115; --panel:#0b0f14; --paper:#12161d; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630;
+    --brand:#C4162A; --accent:#9bb5ff;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  .bar{position:sticky;top:0;z-index:8;display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(15,17,21,.9);backdrop-filter:blur(8px)}
-  .brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font-weight:800}
-  .brand img{height:28px}
-  .wrap{display:grid;grid-template-columns:1fr 360px;gap:0;min-height:calc(100vh - 56px)}
-  .stage{padding:20px;display:grid;place-items:start;overflow:auto}
-  .frame{width:100%;max-width:820px;min-height:90vh;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0b0f14}
-  .frame iframe{display:block;width:100%;height:100vh;border:0;background:#fff}
-  .specs{border-left:1px solid var(--line);background:#0b0f14;color:#c7d1ff;padding:20px 18px;overflow:auto;box-shadow:-4px 0 12px rgba(0,0,0,.5)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  a{color:#8ab4ff;text-decoration:none}
+  .bar{position:sticky;top:0;z-index:10;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(15,17,21,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .wrap{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 52px)}
+  .stage{padding:20px;overflow:auto;background:var(--bg)}
+  .frame{width:100%;max-width:820px;min-height:calc(100vh - 140px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .frame iframe{display:block;width:100%;height:100%;border:0}
+  .err{margin:0 0 16px;padding:12px;border:1px solid #3b4352;background:#1a2332;color:#e6edf3;border-radius:8px}
+  .specs{border-left:1px solid var(--line);background:var(--panel);color:#c7d1ff;padding:20px 18px;overflow:auto}
   .specs h2{margin:0 0 12px;font-size:18px;color:#fff}
-  .specs h3{margin:18px 0 6px;font-size:14px;color:#9bb5ff}
-  .specs p,.specs li{font-size:14px;line-height:1.5;color:#a8b3c2}
+  .specs h3{margin:18px 0 6px;font-size:14px;color:var(--accent)}
+  .specs p,.specs li{font-size:14px;line-height:1.55;color:#a8b3c2}
   .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1f2630;font-size:12px;color:#c7d1ff}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#b8c1cc}
-  .ok{color:#22c55e}.warn{color:#f59e0b}.no{color:#ef4444}
-  @media (max-width:980px){.wrap{grid-template-columns:1fr}.specs{border-left:none;border-top:1px solid var(--line)}}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:#22c55e}
+  @media (max-width:1024px){.wrap{grid-template-columns:1fr}.specs{border-left:none;border-top:1px solid var(--line)}}
 </style>
-<script>
-  const qs = new URLSearchParams(location.search);
-  let tpl = qs.get('tpl') || qs.get('template') || '';
-  const id = qs.get('id') || '';
-
-  // Normalize for GitHub Pages: remove leading / and ensure relative path
-  if (tpl.startsWith('/')) tpl = tpl.replace(/^\/+/, '');
-  if (!tpl.startsWith('./') && !tpl.startsWith('../')) tpl = './' + tpl;
-
-  const iframe = document.getElementById('frame');
-  const srcLink = document.getElementById('open-src');
-  const err = document.getElementById('err') || (function(){
-    const d=document.createElement('div');
-    d.id='err';
-    d.style.cssText='margin:12px 16px;padding:12px;border:1px solid #3b4352;background:#1a2332;color:#e6edf3;border-radius:8px;';
-    d.hidden=true;
-    document.querySelector('.stage')?.prepend(d);
-    return d;
-  })();
-
-  async function loadTpl(){
-    if(!tpl){
-      err.hidden=false;
-      err.innerHTML='No template specified. Use <code>?tpl=templates/your-file.html</code>.';
-      return;
-    }
-    srcLink && (srcLink.href = tpl, srcLink.textContent = tpl);
-
-    try{
-      const r = await fetch(tpl, {cache:'no-store'});
-      if(!r.ok){
-        err.hidden=false;
-        err.innerHTML=`Could not load <code>${tpl}</code> (HTTP ${r.status}). Check filename/case in <code>/templates</code>.`;
-        return;
-      }
-      iframe.src = tpl;
-    }catch(e){
-      err.hidden=false;
-      err.textContent = `Network error loading ${tpl}: ` + e;
-    }
-  }
-  document.addEventListener('DOMContentLoaded', loadTpl);
-</script>
-
-
 </head>
 <body>
   <div class="bar">
-    <a class="brand" href="./">
-      <img src="./assets/elenack-logo-light.svg" alt="Elenack Motorplex">
-      <span>Template Preview</span>
-    </a>
-    <div style="margin-left:auto"><a href="./">← Back to Gallery</a></div>
+    <a href="./">← Back to Gallery</a>
+    <div style="opacity:.8;font-size:13px">Live preview • Status & tips</div>
   </div>
+
   <div class="wrap">
-    <section class="stage"><div class="frame"><iframe id="frame" title="Template preview"></iframe></div></section>
-    <div id="err" hidden style="margin:12px 16px; padding:12px; border:1px solid #3b4352; background:#1a2332; color:#e6edf3; border-radius:8px;">
-  <!-- Error text injected by script -->
-</div>
+    <section class="stage">
+      <div id="err" class="err" hidden></div>
+      <div class="frame"><iframe id="frame" title="Email preview"></iframe></div>
+    </section>
+
     <aside class="specs" aria-labelledby="title">
       <h2 id="title">Template Preview</h2>
-      <h3>Image Specs</h3><ul id="img-list"></ul>
-      <h3>Email Best Practices (built-in)</h3>
-      <ul>
-        <li><span class="ok">✓</span> 600px max width</li>
-        <li><span class="ok">✓</span> Bulletproof VML buttons</li>
-        <li><span class="ok">✓</span> Preheader text (85–130 chars)</li>
-        <li><span class="ok">✓</span> Live text for key copy</li>
-        <li><span class="ok">✓</span> ALT text on images</li>
-        <li><span class="ok">✓</span> CAN-SPAM footer</li>
+
+      <h3>Resolved Source</h3>
+      <p>File: <a id="open-src" href="#" target="_blank" rel="noopener" class="mono">—</a></p>
+      <p>Status: <span id="status" class="pill">checking…</span></p>
+
+      <h3>Image Specs (quick)</h3>
+      <ul id="img-list">
+        <li><strong>Hero:</strong> 600×(auto) px • <span class="pill">&lt; 200 KB</span> • JPG 80–85%</li>
       </ul>
-      <h3>File Types & Sizes</h3>
-      <ul><li>Photos: <strong>JPG 80–85%</strong>. Logos/UI: <strong>PNG</strong>. Avoid WebP.</li><li>Hero &lt; 200 KB; total images &lt; 1.2 MB.</li><li>Set explicit <code class="mono">width</code> and <code class="mono">style="height:auto"</code>.</li></ul>
-      <h3>Repeatable Editing Process</h3>
-      <ol><li>Duplicate a template in <code class="mono">/templates</code>.</li><li>Swap hero, copy, and links (+UTMs).</li><li>Set preheader.</li><li>Verify footer address & unsubscribe.</li><li>Send tests to Gmail + Outlook.</li></ol>
-      <h3>Source File</h3><p><a id="open-src" href="#" target="_blank" rel="noopener">Open raw HTML</a></p>
+
+      <h3>Best Practices</h3>
+      <ul>
+        <li><span class="ok">✓</span> 600px layout, live text, descriptive ALT</li>
+        <li><span class="ok">✓</span> VML buttons for Outlook, 44px min height</li>
+        <li><span class="ok">✓</span> Preheader 85–130 chars, CAN-SPAM footer</li>
+        <li><span class="ok">✓</span> Avoid WebP; use JPG/PNG for email</li>
+      </ul>
+
+      <h3>Repeatable Process</h3>
+      <ol>
+        <li>Duplicate a template under <code class="mono">/templates</code>.</li>
+        <li>Swap hero/copy/CTAs. Keep text live.</li>
+        <li>Set preheader, verify address & unsubscribe.</li>
+        <li>Test in Gmail + Outlook before send.</li>
+      </ol>
     </aside>
   </div>
+
+<script>
+(async function(){
+  // --- Read & normalize parameters ---
+  const qs = new URLSearchParams(location.search);
+  let tpl = qs.get('tpl') || qs.get('template') || '';
+  const id  = qs.get('id') || '';
+
+  // Normalize for GitHub Pages (no leading slash; make relative)
+  if (tpl.startsWith('/')) tpl = tpl.replace(/^\/+/, '');
+  if (!tpl.startsWith('./') && !tpl.startsWith('../')) tpl = './' + tpl;
+
+  const iframe   = document.getElementById('frame');
+  const openSrc  = document.getElementById('open-src');
+  const statusEl = document.getElementById('status');
+  const errBox   = document.getElementById('err');
+  const titleEl  = document.getElementById('title');
+  const setError = (html) => { errBox.hidden = false; errBox.innerHTML = html; };
+
+  // Optional: human title by id
+  const TITLES = {
+    accord: "Accord Hybrid — Offers",
+    service: "Service & Tires",
+    cpo: "Certified Pre-Owned",
+    new: "New Vehicles"
+  };
+  titleEl.textContent = TITLES[id] || "Template Preview";
+
+  // Show resolved link
+  if (tpl) { openSrc.href = tpl; openSrc.textContent = tpl; }
+  else {
+    statusEl.textContent = 'no file';
+    setError('No template specified. Use <code class="mono">?tpl=templates/your-file.html</code>.');
+    return;
+  }
+
+  try {
+    // Some hosts block HEAD; use GET but ignore body until needed
+    const resp = await fetch(tpl, { cache: 'no-store' });
+    statusEl.textContent = 'HTTP ' + resp.status;
+
+    if (!resp.ok) {
+      setError(`Could not load <code class="mono">${tpl}</code> (HTTP ${resp.status}).<br>
+        Check spelling/case in <code class="mono">/templates</code> and avoid leading slashes.`);
+      return;
+    }
+
+    const html = await resp.text();
+
+    // Compute base href (directory of the template) so relative paths work
+    const absFile  = new URL(tpl, location.href);
+    const baseHref = new URL('.', absFile).href; // dir of tpl
+
+    // Inject via srcdoc with a <base> so ../assets/... resolve correctly
+    const doc = `<!doctype html><html><head><base href="${baseHref}"></head><body>${html}</body></html>`;
+    iframe.srcdoc = doc;
+
+  } catch (e) {
+    statusEl.textContent = 'network error';
+    setError('Network error loading <code class="mono">' + tpl + '</code><br>' + String(e));
+  }
+})();
+</script>
 </body>
 </html>
