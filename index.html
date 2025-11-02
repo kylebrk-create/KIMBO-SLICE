@@ -8,9 +8,15 @@
   <style>
     :root{
       --bg:#0f1115; --paper:#12161d; --ink:#e6edf3; --muted:#9aa7b2; --line:#1f2630;
-      --brand:#C4162A; --gold:#B8860B;
-      --header-bg:rgba(15,17,21,.9); --header-stroke:#1f2630;
+      --brand:#C4162A; --gold:#B8860B; --header-bg:rgba(15,17,21,.9); --header-stroke:#1f2630;
+
+      /* preview math */
+      --preview-width: 600px;    /* size of the email inside the iframe */
+      --preview-height: 1200px;
+      --card-preview-h: 340px;   /* uniform window height for all cards */
+      --radius: 14px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -21,6 +27,7 @@
     a{color:#8ab4ff; text-decoration:none}
     h1{font-weight:800;margin:0 0 8px}
     p{margin:0 0 20px;color:var(--muted)}
+
     /* Header */
     .site-header{
       position:fixed; top:0; left:0; right:0; z-index:10;
@@ -34,39 +41,53 @@
     }
     .brand{display:flex; align-items:center; gap:12px; color:inherit}
     .brand img{height:36px; width:auto}
+
     /* Grid */
     .grid{
       max-width:1200px; margin:0 auto;
       display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
       gap:18px;
     }
+
     .card{
-      position:relative; border:1px solid var(--line); border-radius:14px;
-      background:var(--paper); overflow:hidden;
+      position:relative;
+      display:flex; flex-direction:column;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--paper);
+      overflow:hidden;
       transition:transform .12s, box-shadow .12s, border-color .12s;
+      contain: content; /* isolates layout (prevents weird stacking) */
     }
     .card:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.4); border-color:#2a3240}
     .overlay{position:absolute; inset:0; z-index:3}
+
     .preview-wrap{
-      position:relative; background:#0b0f14;
+      position:relative;
+      background:#0b0f14;
       border-bottom:1px solid var(--line);
-      width:100%; height:360px; overflow:hidden;
+      width:100%;
+      height:var(--card-preview-h);   /* UNIFORM height */
+      overflow:hidden;
     }
+    /* The email is rendered inside a 600x1200px iframe and scaled to fit */
     .preview{
       position:absolute; top:0; left:50%;
-      width:600px; height:1200px;
-      transform-origin:top center; transform:translateX(-50%) scale(.75);
+      width:var(--preview-width); height:var(--preview-height);
+      transform-origin:top center;
+      /* transform set by JS: translateX(-50%) scale(S) */
       border:0; pointer-events:none; background:#fff;
       box-shadow:0 0 0 1px #111 inset;
     }
+
     .meta{padding:12px 14px 14px}
     .title{font-weight:800}
     .hint{font-size:12px; color:var(--muted); margin-top:4px}
+
     @media (max-width:600px){
       body{padding:88px 16px 28px}
       .header-inner{padding:12px 16px}
-      .preview-wrap{height:300px}
-      .preview{transform:translateX(-50%) scale(.65)}
+      :root{ --card-preview-h: 300px; } /* slightly shorter on mobile */
     }
   </style>
 </head>
@@ -75,11 +96,11 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="./">
-        <!-- If you don't have this asset yet, swap to elenack-logo.png or remove the <img>. -->
+        <!-- swap the logo src if needed -->
         <img src="./assets/elenack-logo-light.svg" alt="Elenack Motorplex">
         <strong>Email Gallery</strong>
       </a>
-      <div style="opacity:.8;font-size:13px">Dark mode • Live previews • Click a card for details</div>
+      <div style="opacity:.8;font-size:13px">Dark mode • Live previews • Click a card</div>
     </div>
   </header>
 
@@ -150,8 +171,7 @@
         </div>
       </article>
 
-      <!-- Service Center Hero — Muddy Tractor (include only if file exists) -->
-      <!-- If you've added /templates/service-center-hero.html, keep this card. Otherwise, delete or comment it out. -->
+      <!-- Service Center Hero — Muddy Tractor (include only if this file exists) -->
       <article class="card">
         <a class="overlay" href="./preview.html?tpl=templates/service-center-hero.html&id=service"></a>
         <div class="preview-wrap">
@@ -165,5 +185,33 @@
 
     </div>
   </main>
+
+  <script>
+    // Scale each iframe so the 600px email fits the uniform preview window
+    function sizePreviews(){
+      const wraps = document.querySelectorAll('.preview-wrap');
+      wraps.forEach(wrap => {
+        const iframe = wrap.querySelector('.preview');
+        if(!iframe) return;
+        const wrapW = wrap.clientWidth;
+        const targetW = 600;      // must match --preview-width
+        const targetH = 1200;     // must match --preview-height
+        const maxH = wrap.clientHeight; // uniform window height
+
+        let scale = wrapW / targetW;   // fit width by default
+        const scaledH = targetH * scale;
+
+        // If fitting width makes it too tall for the window, cap by height
+        if (scaledH > maxH) {
+          scale = maxH / targetH;
+        }
+        iframe.style.transform = `translateX(-50%) scale(${scale})`;
+      });
+    }
+    let _t;
+    function onResize(){ clearTimeout(_t); _t = setTimeout(sizePreviews, 80); }
+    window.addEventListener('load', sizePreviews);
+    window.addEventListener('resize', onResize);
+  </script>
 </body>
 </html>
