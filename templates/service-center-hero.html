@@ -1,106 +1,56 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Elenack Motorplex | Service Center Hero</title>
-  <style>
-    body {
-      margin:0;
-      padding:0;
-      background:#0f1115;
-      color:#e6edf3;
-      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    }
-    .wrapper {
-      width:100%;
-      background:#12161d;
-      padding:40px 0;
-    }
-    table {
-      width:100%;
-      max-width:600px;
-      margin:0 auto;
-      border-collapse:collapse;
-      background:#12161d;
-      border-radius:12px;
-      overflow:hidden;
-    }
-    img {
-      display:block;
-      width:100%;
-      height:auto;
-      border:0;
-    }
-    h1 {
-      font-size:28px;
-      color:#fff;
-      margin:24px 0 8px;
-      text-align:center;
-    }
-    p {
-      font-size:16px;
-      line-height:1.5;
-      color:#c7d1ff;
-      text-align:center;
-      margin:0 24px 24px;
-    }
-    .btn {
-      display:inline-block;
-      padding:14px 32px;
-      background:#C4162A;
-      color:#fff;
-      border-radius:6px;
-      text-decoration:none;
-      font-weight:600;
-      font-size:16px;
-    }
-    .btn:hover {
-      background:#a81222;
-    }
-    .cta {
-      text-align:center;
-      padding-bottom:32px;
-    }
-    .footer {
-      font-size:12px;
-      color:#9aa7b2;
-      text-align:center;
-      border-top:1px solid #1f2630;
-      padding:20px;
-    }
-  </style>
+<meta charset="utf-8">
+<title>Elenack Motorplex | Service Center Hero</title>
+<meta name="viewport" content="width=device-width">
+<style>
+  body{margin:0;padding:0;background:#f6f8fb}
+  img{border:0;display:block}
+  .outer{width:100%;background:#f6f8fb}
+  .wrap{width:100%;max-width:600px;margin:0 auto;background:#ffffff}
+  .pad{padding:24px}
+  h1{margin:0 0 8px;font:700 26px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#0f1720}
+  p{margin:0 0 14px;font:400 15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#3a4456}
+  .btn a{font:700 16px/16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#ffffff;text-decoration:none;display:inline-block;padding:14px 28px}
+  .btn{background:#C4162A;border-radius:6px}
+  .small{font-size:12px;color:#6b7486}
+  .divider{border-top:1px solid #e3e8ef;margin:18px 0}
+  @media (max-width:620px){ .pad{padding:18px} }
+</style>
 </head>
 <body>
-  <div class="wrapper">
-    <table role="presentation">
-      <tr>
-        <td>
-          <!-- Hero image: muddy tractor on lift -->
-          <img src="../assets/service-tractor-hero.jpg"
-               alt="Muddy tractor on lift in a futuristic service bay with three mechanics looking confused">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h1>When Your Ride’s Been Through the Mud</h1>
-          <p>Our Service Center techs are ready for anything—even your off-road adventures.  
-          From standard oil changes to extraterrestrial grime removal, Elenack’s got your back.</p>
-        </td>
-      </tr>
-      <tr>
-        <td class="cta">
-          <a href="#" class="btn">Schedule Service</a>
-        </td>
-      </tr>
-      <tr>
-        <td class="footer">
-          © 2025 Elenack Motorplex — 4250 Galaxy Dr, Colorado Springs, CO  
-          <br><a href="#" style="color:#9bb5ff;">Unsubscribe</a>
-        </td>
-      </tr>
-    </table>
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+    When your adventures get messy—we’ll handle the cleanup. Book now.
   </div>
+
+  <table role="presentation" cellpadding="0" cellspacing="0" class="outer">
+    <tr><td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" class="wrap">
+        <tr><td><img src="../assets/service-tractor-hero.jpg" alt="Muddy tractor on a lift with mechanics looking up, bright bay" width="600" style="width:100%;height:auto;"></td></tr>
+        <tr><td class="pad">
+          <h1>Been Through the Mud?</h1>
+          <p>From off-road cleanups to everyday maintenance, our techs are standing by. Get a quick appointment and honest turnaround time—no surprises.</p>
+
+          <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:12px auto 6px">
+            <tr><td class="btn">
+              <!--[if mso]>
+              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" arcsize="8%" fillcolor="#C4162A" stroke="f" style="height:44px;v-text-anchor:middle;width:220px;">
+                <w:anchorlock/>
+                <center style="color:#ffffff;font-family:Segoe UI, Arial, sans-serif;font-size:16px;font-weight:700;">Schedule Service</center>
+              </v:roundrect>
+              <![endif]-->
+              <!--[if !mso]><!-- --><a href="#" target="_blank">Schedule Service</a><!--<![endif]-->
+            </td></tr>
+          </table>
+
+          <p class="small">Service Hours: Mon–Fri 7:30a–6:00p · Sat 8:00a–3:00p · <a href="#" style="color:#1a66ff">Directions</a></p>
+
+          <div class="divider"></div>
+          <p class="small">© 2025 Elenack Motorplex · 4250 Galaxy Dr, Colorado Springs, CO · <a href="#" style="color:#1a66ff">Unsubscribe</a></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
 </body>
 </html>
-
